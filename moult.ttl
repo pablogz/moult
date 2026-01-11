@@ -1,0 +1,710 @@
+@prefix mo: <http://moult.gsic.uva.es/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix geoSparql: <http://www.opengis.net/ont/geosparql#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+
+
+mo: a owl:Ontology ;
+  rdfs:comment "Ontology for describing learning situations related to ubiquitous learning. It contains the basic classes of this type of educational situation, so it will be necessary to specialize them to accommodate the typical elements of the different domains."@en ,
+  "Ontología para describir situaciones de aprendizaje relacionadas con el aprendizaje ubicuo. Contiene las clases básicas para describir este tipo de situaciones educativas. Será necesario especializar esta ontología para dar cabida a los elementos característicos de los diferentes dominios educativos."@es ;
+  rdfs:label "Multi-domain Ontology for Ubiquitous Learning Task"@en ,
+      "Ontología multidominio para tareas de aprendizaje ubicuas"@es ;
+  owl:versionInfo 0.7 ;
+  dc:creator [ a mo:Person ;
+      foaf:name "Pablo García-Zarza" ;
+      foaf:nick "pablogz" ;
+      rdfs:seeAlso <https://gsic.uva.es/members/pablogz> 
+    ] ,
+    [
+      a mo:Person ;
+      foaf:name "Guillermo Vega-Gorgojo" ;
+      foaf:nick "guiveg" ;
+      rdfs:seeAlso <https://gsic.uva.es/members/guiveg> 
+    ] ,
+    [
+      a mo:Person ;
+      foaf:name "Miguel L. Bote-Lorenzo" ;
+      foaf:nick "migbot" ;
+      rdfs:seeAlso <https://gsic.uva.es/members/mbotlor> 
+    ] ,
+    [
+      a mo:Person ;
+      foaf:name "Juan I. Asensio-Pérez" ;
+      foaf:nick "juaase" ;
+      rdfs:seeAlso <https://gsic.uva.es/members/juaase> 
+    ] ,
+    [
+      a mo:Person ;
+      foaf:name "Eduardo Gómez-Sánchez" ;
+      foaf:nick "edugom" ;
+      rdfs:seeAlso <https://gsic.uva.es/members/edugom> 
+    ] ;
+  dc:created "2022-01-01"^^xsd:date ;
+  dc:update "2026-01-10"^^xsd:date ;
+  vann:preferredNamespacePrefix "mo" .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+mo:boundary a owl:ObjectProperty ;
+  rdfs:domain mo:Surface ;
+  rdfs:range mo:MultiCurve ;
+  rdfs:label "Boundary"@en , "Límite"@es ;
+  rdfs:comment "It represents the limit of a surface"@en , "Representa el límite de la superficie"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:category a owl:ObjectProperty ;
+  rdfs:domain mo:Itinerary , mo:LearningTask , mo:Feature ;
+  rdfs:range mo:Category ;
+  rdfs:comment "Está enlazado a una categoría."@es , "It is linked to a category."@en ;
+  rdfs:label "Category"@en , "Categoría"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:context a owl:ObjectProperty ;
+  rdfs:domain mo:LearningTask ;
+  rdfs:range mo:LearningContext ;
+  rdfs:comment "Contexto educativo con el que la tarea de aprendizaje está relacionado."@es , "Educational context to which the learning task is connected."@en ;
+  rdfs:label "Context"@en , "Contexto"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:curve a owl:ObjectProperty ;
+  rdfs:domain mo:MultiCurve ;
+  rdfs:range mo:Curve ;
+  rdfs:label "Curve"@en , "Curvilínea"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:hasGeometry a owl:ObjectProperty ;
+  rdfs:domain mo:Feature ;
+  rdfs:range mo:Geometry ;
+  rdfs:comment "La cosa espacial tiene una representación en el mundo físico"@es , "Spatial thing has a representation in the real-world"@en ;
+  rdfs:label "Has geometry"@en , "Tiene geometría"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:hasLearningTask a owl:ObjectProperty ;
+  rdfs:domain mo:Itinerary , mo:Feature , mo:LearningTask ;
+  rdfs:range mo:LearningTask ;
+  rdfs:comment "Está enlazada a una tarea de aprendizaje."@es , "It is linked to a learning task."@en ;
+  rdfs:label "Has learning task."@en , "Tiene una tarea de aprendizaje."@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:hasPoint a owl:ObjectProperty ;
+  rdfs:domain mo:Track ;
+  rdfs:range mo:PointTrack ;
+  rdfs:comment "Punto del recorrido"@es , "Track point"@en ;
+  rdfs:label "Has point"@en , "Tiene un punto"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:hasSpatialThing a owl:ObjectProperty ;
+  rdfs:domain mo:Itinerary , mo:LearningTask ;
+  rdfs:range mo:Feature ;
+  rdfs:comment "Está enlazado a una cosa espacial"@es , "It is linked to a spatial thing."@en ;
+  rdfs:label "Has spatial thing"@en , "Tiene una cosa espacial"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:hasTrack a owl:ObjectProperty ;
+  rdfs:domain mo:Itinerary ;
+  rdfs:range mo:Track ;
+  rdfs:comment "El itinerario dispone de un camino recomendado para seguir el itinerario"@es , "The itinerary has a recommended route to follow."@en ;
+  rdfs:label "Has track"@en , "Tiene recorrido"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:inSpace a owl:ObjectProperty ;
+  rdfs:domain mo:LearningTask ;
+  rdfs:range mo:LearningSpace ;
+  rdfs:comment "Entidad enlazada a un espacio"@es , "Entity linked to a space"@en ;
+  rdfs:label "En espacio"@es , "In space"@en ;
+  rdfs:isDefinedBy "mo" .
+
+mo:media a owl:ObjectProperty ;
+  rdfs:domain mo:Category , mo:Itinerary , mo:LearningTask , mo:PointTrack , mo:Feature ;
+  rdfs:range mo:MediaObject ;
+  rdfs:comment "It has an associated multimedia resource."@en , "Tiene un recurso multimedia asociado."@es ;
+  rdfs:label "Media"@en , "Media"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:next a owl:ObjectProperty ;
+  rdfs:domain mo:Feature, mo:LearningTask ;
+  rdfs:range mo:Feature, mo:LearningTask ;
+  rdfs:label "next"@en, "siguiente"@es ;
+  rdfs:comment "Indicates the next entity in an ordered list."@en, "Indica la siguiente entidad de un listado ordenado."@es ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:point a owl:ObjectProperty ;
+  rdfs:domain mo:Curve , mo:PointTrack ;
+  rdfs:range mo:Point ;
+  rdfs:label "Point"@en , "Punto"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:taskType a owl:ObjectProperty ;
+  rdfs:domain mo:LearningTask ;
+  rdfs:range mo:LearningTaskType ;
+  rdfs:comment "Acción de la tarea de aprendizaje"@en ,  "Learning task action."@en ;
+  rdfs:label "Task type"@en , "Tipo de tarea"@en ;
+  rdfs:isDefinedBy "mo" .
+
+
+###  http://purl.org/dc/terms/creator
+dc:creator a owl:ObjectProperty ;
+  rdfs:domain mo:Category , mo:Itinerary , mo:LearningTask , mo:Feature ;
+  rdfs:range mo:Person .
+
+### http://www.w3.org/1999/02/22-rdf-syntax-ns#first
+rdf:first a owl:ObjectProperty ;
+  rdfs:domain mo:Itinerary, mo:Feature ;
+  rdfs:range mo:Feature, mo:LearningTask .
+
+###  http://www.w3.org/2004/02/skos/core#broader
+skos:broader a owl:ObjectProperty ;
+  owl:inverseOf skos:narrower ;
+  rdfs:domain mo:Category ;
+  rdfs:range mo:Category .
+
+###  http://www.w3.org/2004/02/skos/core#narrower
+skos:narrower a owl:ObjectProperty ;
+  rdfs:domain mo:Category ;
+  rdfs:range mo:Category .
+
+### http://www.opengis.net/ont/geosparql#sfContains
+geoSparql:sfContains a owl:ObjectProperty ;
+  rdfs:domain mo:Feature ;
+  rdfs:range mo:Feature .
+  
+### http://www.opengis.net/ont/geosparql#sfWithin
+geoSparql:sfWithin a owl:ObjectProperty ;
+  rdfs:domain mo:Feature ;
+  rdfs:range mo:Feature .
+
+###  http://purl.org/dc/terms/isReplacedBy
+dc:isReplacedBy a owl:ObjectProperty ;
+  rdfs:domain mo:Category , mo:Itinerary , mo:LearningTask , mo:PointTrack , mo:Feature , mo:Track .
+
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+mo:correctAnswer a owl:DatatypeProperty ;
+  rdfs:domain mo:YesNo, mo:MCQ ;
+  rdfs:range xsd:boolean , xsd:string ;
+  rdfs:comment "Correct answer to a learning task."@en , "Respuesta correcta de una tarea de aprendizaje."@en ;
+  rdfs:label "Correct answer"@en , "Respuesta correcta"@en ;
+  rdfs:isDefinedBy "mo" .
+
+mo:option a owl:DatatypeProperty ;
+  rdfs:domain mo:MCQ ;
+  rdfs:range xsd:string ;
+  rdfs:comment "MCQ option."@en , "Opción de una tarea de selección múltiple."@en ;
+  rdfs:label "Option"@en , "Opción"@en ;
+  rdfs:isDefinedBy "mo" .
+
+mo:position a owl:DatatypeProperty ;
+  rdfs:domain mo:PointTrack ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:comment "Posición en el recorrido."@en , "Position of the point on the track"@en ;
+  rdfs:label "Number"@en , "Número"@en ;
+  rdfs:isDefinedBy "mo" .
+
+mo:singleSelection a owl:DatatypeProperty ;
+  rdfs:domain mo:MCQ ;
+  rdfs:range xsd:boolean ;
+  rdfs:comment "Indicates whether students can select one option from the task or multiple options."@en , "Indica si los estudiantes pueden seleccionar una opción de la tarea o múltiples opciones."@en ;
+  rdfs:label "Single selection"@en , "Respuesta única"@en ;
+  rdfs:isDefinedBy "mo" .
+
+###  http://purl.org/dc/terms/created
+dc:created a owl:DatatypeProperty ;
+  rdfs:domain mo:Category , mo:Itinerary , mo:LearningTask , mo:Feature .
+
+###  http://purl.org/dc/terms/license
+dc:license a owl:DatatypeProperty ;
+  rdfs:domain mo:Itinerary , mo:LearningTask , mo:Feature , mo:Track .
+
+###  http://www.w3.org/2000/01/rdf-schema#comment
+rdfs:comment a owl:DatatypeProperty ;
+  rdfs:domain mo:Category , mo:Itinerary , mo:LearningContext , mo:LearningSpace , mo:LearningTask , mo:LearningTaskType , mo:PointTrack , mo:Feature , mo:Track .
+
+###  http://www.w3.org/2000/01/rdf-schema#label
+rdfs:label a owl:DatatypeProperty ;
+  rdfs:domain mo:Category , mo:Itinerary , mo:LearningContext , mo:LearningSpace , mo:LearningTask , mo:LearningTaskType , mo:PointTrack , mo:Feature , mo:Track .
+
+###  https://www.w3.org/2003/01/geo/wgs84_pos#lat
+geo:lat a owl:DatatypeProperty ;
+  rdfs:domain mo:Point .
+
+###  https://www.w3.org/2003/01/geo/wgs84_pos#long
+geo:long a owl:DatatypeProperty ;
+  rdfs:domain mo:Point .
+
+###  https://www.w3.org/2003/01/geo/wgs84_pos#alt
+geo:alt a owl:DatatypeProperty ;
+  rdfs:domain mo:Point .
+
+### http://www.opengis.net/ont/geosparql#isSimple
+geoSparql:isSimple a owl:DatatypeProperty ;
+  rdfs:domain mo:Curve .
+
+#################################################################
+#    Classes
+#################################################################
+
+mo:Category a owl:Class , rdfs:Class ;
+  rdfs:subClassOf wd:Q16887380 ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:isReplacedBy ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Category
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:created ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+  rdfs:comment "Agrupación en la que se puede incluir a la entidad."@es , "Group in which the entity can be included."@en ;
+  rdfs:label "Category"@en , "Cateogoría"@es ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:Curve a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:Geometry ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:point ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Point
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty geoSparql:isSimple ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    ] ;
+  rdfs:comment "Area bounded by curves."@en , "Extensión limitada por curvas."@es ;
+  rdfs:label "Curve"@en , "Curvilínea"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:Feature a owl:Class , rdfs:Class ;
+  rdfs:subClassOf geoSparql:Feature ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Person
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:isReplacedBy ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Feature
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:license ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:created ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] , 
+    [ a owl:Restriction ;
+      owl:onProperty rdf:first ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:LearningTask
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:next ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Feature
+    ] ;
+  rdfs:comment "Element with spatial extends that combines the real-world entity and its geometry."@en , "Elemento con extensión espacial que combina la entidad del mundo real y su geometría."@es ;
+  rdfs:label "Cosa espacial"@es , "Spatial thing"@en ;
+  rdfs:isDefinedBy "mo" .
+
+mo:Geometry a owl:Class , rdfs:Class ;
+  rdfs:subClassOf geoSparql:Geometry ;
+  rdfs:comment "A bounded extension that represents the shape, size, and position of an entity."@en , "Extensión delimitada que representa la forma, el taman~o y la posición de un entidad."@es ;
+  rdfs:label "Geometry"@en , "Geometría"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:Itinerary a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Person
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:hasTrack ;
+      owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Track
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:media ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:isReplacedBy ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Itinerary
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:license ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:created ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:hasSpatialThing ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Feature
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdf:first ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Feature
+    ] ;
+  rdfs:comment "Disen~o de aprendizaje que puede estar compuesto por cosas espaciales y tareas de aprendizaje."@es , "Learning design that may be composed of spatial things and learning tasks."@en ;
+  rdfs:label "Itinerario"@es , "Itinerary"@en ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:LearningContext a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+  rdfs:comment "Context in which the learning task may be meaningful. For example, for high school students or fifth-grade elementary school students.."@en , "Contexto donde puede ser relevante la tarea de aprendizaje. Por ejemplo, para estudiantes de instituto o de quinto de educación primaria."@es ;
+  rdfs:label "Contexto de aprendizaje."@es , "Learning context."@en ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:LearningSpace a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+  rdfs:comment "Extension where the learning task can be carried out."@en , "Extensión donde se puede completar la tarea de aprendizaje."@es ;
+  rdfs:label "Espacio de aprendizaje."@es , "Learning space."@en ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:LearningTask a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+      owl:onProperty mo:inSpace ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:LearningSpace
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:taskType ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:LearningTaskType
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Person
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:creator ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:media ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:isReplacedBy ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:LearningTask
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:license ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:created ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] , 
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:next ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:LearningTask
+    ] ;
+  rdfs:comment "Educational activity that students can carry out."@en , "Actividad educativa que pueden completar los estudiantes."@es ;
+  rdfs:label "Learning task"@en , "Tarea de aprendizaje"@es ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:LearningTaskType a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+  rdfs:comment "Acción que se les pide realizar a los estudiantes en la tarea de aprendizaje."@es , "Action that students are asked to carry out in the learning task"@en ;
+  rdfs:label "Learning task type."@en , "Tipo de tarea de aprendizaje."@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:ListItinerary a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:Itinerary ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ;
+  rdfs:label "List itinerary"@en , "Itinerario sin orden"@es ;
+  rdfs:comment "An itinerary where students decide the order in which they visit the spatial things and carry out the learning tasks."@en , "Itinerario en el que los estudiantes deciden el orden en el que visitan las cosas espaciales y completan las tareas de aprendizaje."@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:MCQ a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:LearningTaskType ,
+  [ a owl:Restriction ;
+      owl:onProperty mo:correctAnswer ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger 
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty mo:option ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger 
+  ] ,
+  [
+    a owl:Restriction ;
+    owl:onProperty mo:singleSelection ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ;
+  rdfs:label "Multi-choice question"@en , "Tarea de selección entre múltiples opciones"@es ;
+  rdfs:comment "Students have to choose from multiple options to answer a question."@en , "Los estudiantes tienen que elegir entre múltiples opciones para responder a una pregunta."@es ;
+  rdfs:isDefinedBy "mo" .  
+  
+mo:MediaObject a owl:Class , rdfs:Class ;
+  rdfs:subClassOf schema:MediaObject ;
+  rdfs:label "A media object (e.g., image, video, audio, etc.)"@en , "Un objecto multimedia (por ejemplo, imagen, vídeo, audio, etc.)."@es ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:MultiCurve a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:Geometry ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:curve ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Curve
+    ] ;
+  rdfs:comment "Figura compuesta por dos o más curvilíneas, conectadas o disjuntas, que forman una única entidad."@es , "Figure composed of two or more curve, either connected or disjoint, forming a single entity."@en ;
+  rdfs:label "MultiCurve"@en , "Multicurvilínea"@es ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:Person a owl:Class , rdfs:Class ;
+  rdfs:subClassOf foaf:Person ;
+  rdfs:label "Person"@en , "Persona"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:PhysicalSpace a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:LearningSpace ;
+  rdfs:comment "The learning task must be carried out close the spatial thing."@en , "Las tareas de aprendizaje se tiene que realizar cerca de la cosa espacial."@es ;
+  rdfs:label "Physical space"@en , "Espacio físico"@es ;
+  rdfs:isDefinedBy "mo" .
+  
+mo:Point a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:Geometry ,
+    [ a owl:Restriction ;
+      owl:onProperty geo:lat ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty geo:long ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty geo:alt ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ;
+  rdfs:comment "A geometric element that has no extension and is represented in space through its coordinates."@en , "Elemento geométrico que carece de extensión y se representa en el espacio a través de sus coordenadas."@es ;
+  rdfs:label "Point"@en , "Punto"@es ;
+  geo:lat "Latitude"@en , "Latitud"@es ;
+  geo:long "Longitude"@en, "Longitud"@es ;
+  geo:alt "Altitude"@en, "Altitud"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:PointTrack a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+      owl:onProperty mo:point ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Point
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:position ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:media ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ a owl:Restriction ;
+      owl:onProperty dc:isReplacedBy ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:PointTrack
+    ]  ;
+  rdfs:comment "Punto del recorrido."@es , "Track point"@en ;
+  rdfs:label "Point track"@en , "Punto del recorrido"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:SetItinerary a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:Itinerary ,
+  [ a owl:Restriction ;
+      owl:onProperty rdf:first ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:LearningTask
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ;
+  rdfs:label "Set itinerary"@en , "Itinerario ordenado"@es ;
+  rdfs:comment "Itinerary where teachers decide the order in which students will visit the spatial things and carry out the learning tasks."@en , "Itinerario en el que los profesores van a decir el orden en el que los estudiantes van a visitar las cosas espaciales y completar las tareas de aprendizaje."@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:Surface a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:Geometry ,
+    [ a owl:Restriction ;
+      owl:onProperty mo:boundary ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:MultiCurve
+    ] ;
+  rdfs:comment "2D geometric figure."@en , "Figura geométrica de dos dimensiones."@es ;
+  rdfs:label "Surface"@en , "Superficie"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:Text a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:LearningTaskType ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ;
+  rdfs:label "Open text"@en , "Texto abierto"@es ;
+  rdfs:comment "Students provide an open-text to carry out the learning task."@en , "Los estudiantes responden a la tarea mediante un texto libre."@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:Track a owl:Class , rdfs:Class ;
+  rdfs:subClassOf [ a owl:Restriction ;
+    owl:onProperty dc:isReplacedBy ;
+    owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass mo:Track
+  ] ;
+  rdfs:comment "Camino recomendado para seguir el itinerario."@es , "Recommended route to follow the itinerary."@en ;
+  rdfs:label "Recorrido"@es , "Track"@en ;
+  rdfs:isDefinedBy "mo" .
+
+mo:VirtualSpace a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:LearningSpace ;
+  rdfs:comment "Learning tasks can be carried out from anywhere via an application."@en , "Las tareas de aprendizaje pueden realizarse desde cualquier lugar a través de una aplicación."@es ;
+  rdfs:label "Virtual space"@en , "Espacio virtual"@es ;
+  rdfs:isDefinedBy "mo" .
+
+mo:YesNo a owl:Class , rdfs:Class ;
+  rdfs:subClassOf mo:LearningTaskType ,
+  [ a owl:Restriction ;
+      owl:onProperty mo:correctAnswer ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger 
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:comment ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ,
+  [ a owl:Restriction ;
+      owl:onProperty rdfs:label ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+  ] ;
+  rdfs:label "Yes or no"@en , "Verdadero o falso"@es ;
+  rdfs:comment "Task in which students have to decide whether a statement is true or false."@en , "Tarea en la que los estudiantes tienen que decidir si una afirmación es verdadera o falsa."@es ;
+  rdfs:isDefinedBy "mo" .
+
+###  http://www.opengis.net/ont/geosparql#Feature
+geoSparql:Feature a owl:Class , rdfs:Class .
+
+###  http://www.opengis.net/ont/geosparql#Geometry
+geoSparql:Geometry a owl:Class , rdfs:Class .
+
+###  http://schema.org/#MediaObject
+schema:MediaObject a owl:Class , rdfs:Class .
+
+###  http://xmlns.com/foaf/0.1/#Person
+foaf:Person a owl:Class , rdfs:Class .
+
+###  http://www.wikidata.org/entity/Q16887380
+wd:Q16887380 a owl:Class , rdfs:Class ;
+  rdfs:label "grupo"@es , "group"@en ;
+  rdfs:comment "conjunto de entidades diversas"@es , "well-defined, enumerable collection of discrete entities that form a collective whole"@en .
